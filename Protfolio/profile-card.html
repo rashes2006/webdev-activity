@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            margin-top: 10%;
+            height: 400px;
+            width: 600px;
+            gap: 0px;
+            background-color: lightblue;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+        div{
+            background-color: white;
+            height: 310px;
+            width: 600px;
+            padding: 20px;
+            text-align: center;
+        }
+        img{
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        button{
+            background-color: blue;
+            border-radius: 10px;
+        }
+        button:hover{
+            background-color: yellow;
+            color: black;
+
+        }
+        @media (max-width: 640px){
+            container{
+                flex-direction: column;
+
+            }
+            button{
+                display: flex;
+                flex-direction: column;
+                margin: auto;
+                margin-bottom: 10px;
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+    <container>
+        <div class="profile-card">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJoAAACUCAMAAABcK8BVAAAAbFBMVEX///8AAAD5+fn19fX8/Pzy8vKPj4/Q0NCTk5PZ2dnm5ubt7e2Li4vKysrq6upsbGxUVFSCgoKlpaVBQUHExMSenp4ICAiysrI7Ozt3d3cyMjJgYGBxcXG7u7usrKwkJCQcHBwSEhJJSUkrKyvTcNafAAAI9ElEQVR4nO1c6baqOgzWgjIroMikOPD+73jUpqVsoQlY9753Lb+/1jZNMzdlsfjiiy+++OJ/BLbxolOep5nrZmmenyLPZ39N0x2bvbuNd+1hqeDQ7uLt+uT/HVWWlx97JL1gm3vWHxDmreuLlq4nrnXo/S5dvksgS+DievZvERaVEwh78u4Y/QZdq1M1tHhb7G7xHbdd0V4HBrSn1acpy28vVMVhk9/tRWDdj822Av9uSZowfqHvln+SLnu/61NVbFPPGrRhzPKabdGnr9h/TOa8Y58N7h4xDdbe7TP5+Bl1ZZkq/JfSIwmP5SVn9W/ZBwydp+4/zicI9SqvVV4bZ1yqsGznTNQ2y1Fk9JIaJWyz7aauZ9moSOHcdmOOMr/o5j3NFBbrpKiqMc+fd9bCfWcet7MlhmxcowjZezMpIteYoCwUsx3W70+2llFUaGAyeZin9ydbLE7yUN/dqJ3IwwxMULZYBNI+Ju+5LXmapTErbpVGzjQzKBkd5H6z+XNI3TSiTybnjQzsbhjyNGZGv177GZ49IPjWznP2wj6+5QHG4ArFn/NnYTaMakAHYS+T6X8VghZ/qEbA4rnitoI/Fh+rXjARzkxNtcAuXqkO3YrSMCnLJEwjqnF2rrOOVMRBpODF8tZCmbnarWl5w6RFBBgstaWMbdTQX0hoQxEEiJ3bKc4U1GeHR8qsCyX6uOb4wW7APk0IQjzIz/AwyIuHCXtyDjenEJSf6YYXTFqNDky1dZkL7kZAFsia4BH3YiU9Qm51Wda3HrEJdqgeDKeyDaQTcwNMqTNUa8cPLMaswHfWSinpiGkDBEhHGmXC3iB6Y3W56XHf/ynqiN4itNl82JXGNlBPzKvLgLByXjZhO9LQYbx3aas9seFMwwxHKtZ2h7krQzKkjgAG5ErJ6CGUQmyNB6c+HswJ2rGzCpF5FIBN07saixA3yNhFr6YQSLQ4ZdGBojLC/Wn3KkJZxEdydTrggQTwVz/QvpKEF0T8qtd1h6YvIoON9ecJ/NghloFVFDlaceG4YTm4Q2HHqkYFjQPErdZLm0s5KDHsoNcq8GRHNJixwSwj0x0o0gH6WekHAf17/agH9iSZ5Od+1g8KSFNx+kl5WkFZFU5UL2wnyrEzPogUyUBwotcXEHB9eMhnqvT0OzSxpY8NKnyvjIstEi6ACyLVsTd8rN6RUpaFUjciatwq70hZ02pHsadc2LSFcVBjxLPwU69JybNVU+Qyx00W1wIs8ubpc0lK0WwYrB8FeZJOD7gUVUhEb540q0IlkgfOBbLclANlpAMF86fbAHe0MTLPJDUoKGpAWPhCmse48RC7vWhG8Hmw0q1xkyszCZQ0rHIDjopUqYD0DJPLnEgaGlFcSNryRIGe1BN7jDRGPCnOigOh1AmZBspgB2MuhERoJg2hJG7ZwKqRZxwPK0Cd0DteiObJKyKZxh0+pvRUrgmpLRC22S1Nrwhcs6ikQREFMzOiuIC7NAcjDVYkiDepQjyhjByhe+ADCNfFsrCg0WbgBFZYeIJq1yg9IqIIN86SE1yzk64eUpQ0WkL4hCxSZcOdWN3vlNl4mHvVjODRMl5eXnQm6x6CDKiNJ9smaDfsPHTSpY88fSB5IJFrPFBGvfXtSJKNFkwB3J/pblA4Xyva7cequ2W5xq7Hnv+ymecqHX817W7MrlBJgtyA2PLDesX5ZfUozvcbKRPivaCP5wZc3ynFjCfsTNsyfBgp875iz+fR6bLf0pXqASvTkZaRbzr5NJXutEB8iH0rm/Cl3bSPW0jrVIMeHL1gctVCC4SP6aKBu8ZX1BFB3AJuavQZIRwQ7uCdo4aeHra4N4C4Q++FSIPuR/mTsEcff1xvt3X8s8P/jiN2rOCmEMPAByGZaNq7z14WSbP3ApvbNTvw9k1S9Aa0yFYhVkA2wIXtqhM2XxWy8y0depLB/Oam9uPWOo4E1+cYpPggUhtNOT1SlqxcjVR6rmJ/z5ogEEr9mDUFyzZ+j6lYsqpBDNeqUYgbPVS4V20xHwQmZqzUpfimNiWYBZZ2xI15LSjq4cYU4s1hh8C6kKIk9v1ulL8M0wbngIfp7DyuLpZUgN2ETqDuJcDwrQv/7UI4A9jlQBTQRY/1pFbpjey4GEqq4ZgopX7IVl/T2o6yyV2A2ThtIt2mBGIien3RZXmlPaP1ffy/YK1o0TAETz/vqWR7+bzOefHvn4LCjRU1RLwNTeKL3pKZneUiX770Tw42fCPOAjzuhUZSOWe3Wwuu99RU9DaT42qQTDWLEIL8Rh/s0BRwpxeT28RA2hStAbV9q29b9pO/TEtORhayq0heDdgQnxVvPSGDQn13+wyXCqQOPgHBJKHqIH20ovc4RIFGMEmYlEnvSYRcgJcvXoVvFkC0oDzgzZLfFWgO9wnAtOrtF4FwJ8vZJta4TZxW7OghBqK7d4KwjgE2+exDFjWTyW3gogfszm2HK+zNQPcw45x6dOkImZneyC0LQQ3c95lgmmRbKRuOiKWkHoSWXoQvMdJyzYT5F35v1msvYTEAhl5l5f1ZZx5Fv9ZiqE+d9Sad7ffUHB3LEskolUmJjaUDYEoybOSB1wPKs0LaHfkIbbJKZe5xYvdsEmt/00O+FbsaeLDHsb7ClJRSmQ6B3OPWyMu4QNbN339pt5KZWmvgyX8ka0z4RSSBNqkLh/cjD1l6I1btMXR1juotxkVK/cMIYfcYt3tXe5j/4tEqu2plau6zAZFSZXRniW/gdjMURr9TsVEeitxmiFymlPFj019uaZRi5GXtTzgR218rTzcMv8h/wlFf2FxKcsiwL9Wibvxm5jMClXHL5TnBH3KtvLD/nw+85+Tww2UPRZh7o36QeXnYr9Evw09+H8irf9xXnIs6iwKL2VL4bJtZmyiri/7lwvJQf/rbO07/ElTwrz4mbpammZsc62JoRPIZIevB9sKhpfVIfut7QFZKutUTqNPf/MaT5bhnnKYHLu4ffHzKz447PVm7Y/Zn3+zynaZsh8lqy9T5w2+JcdibfbMut3Vdx8870eM63W9+7StYNDDLYv8xkr744osvviDhH0yHaBbiXUltAAAAAElFTkSuQmCC" alt="Profile Picture">
+            <h2>Rashes Kumar Tripathy</h2>
+            <p>Web Developer</p>
+        </div>
+        <div class="paragraph">
+            <p>Web designer & Java enthusiast</p>
+            <br>
+            <p>Passionate about creating beautiful and functional web applications.</p>
+            <br>
+            <button>Contact</button>
+            <button>Portfolio</button>
+        </div>
+    </container>
+
+</body>
+</html>
