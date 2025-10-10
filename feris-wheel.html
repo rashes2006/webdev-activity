@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .body{
+        margin: auto;
+    }
+    .frame{
+        position: relative;
+        border-radius: 50%;
+        width: 400px;
+        height: 400px;
+        border: 10px solid black;
+        margin: auto;
+        top: 100%;
+        transform: translate(-50%,-50%);
+        animation: ride-spin 5s linear infinite;
+    }
+    .frame::before,
+    .frame::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: 
+            /* Spike 1 - Top */
+            linear-gradient(90deg, transparent 49%, black 49%, black 51%, transparent 51%),
+            /* Spike 2 - Top-right */
+            linear-gradient(30deg, transparent 49%, black 49%, black 51%, transparent 51%),
+            /* Spike 3 - Bottom-right */
+            linear-gradient(150deg, transparent 49%, black 49%, black 51%, transparent 51%),
+            /* Spike 4 - Bottom */
+            linear-gradient(90deg, transparent 49%, black 49%, black 51%, transparent 51%),
+            /* Spike 5 - Bottom-left */
+            linear-gradient(210deg, transparent 49%, black 49%, black 51%, transparent 51%),
+            /* Spike 6 - Top-left */
+            linear-gradient(330deg, transparent 49%, black 49%, black 51%, transparent 51%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    
+    .spike {
+        position: absolute;
+        width: 4px;
+        height: 200px;
+        background-color: black;
+        top: calc(50% - 200px);
+        left: calc(50% - 2px);
+        transform-origin: bottom center;
+    }
+    
+    .spike1 { transform: rotate(0deg); }
+    .spike2 { transform: rotate(60deg); }
+    .spike3 { transform: rotate(120deg); }
+    .spike4 { transform: rotate(180deg); }
+    .spike5 { transform: rotate(240deg); }
+    .spike6 { transform: rotate(300deg); }
+    /* Base styles for all rides */
+    .ride {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border: 5px solid black;
+        background-color: yellow;
+    }
+    
+    /* Position rides at the tips of the spikes */
+    .ride1{
+        
+        top: calc(50% - 200px - 25px); /* Top spike tip (0°) */
+        left: calc(50% - 25px);
+        animation: ride-spin-rev 5s linear infinite;
+    }
+    .ride2{
+        
+        top: calc(50% - 100px - 25px); /* Top-right spike tip (60°) */
+        left: calc(50% + 173px - 25px);
+        animation: ride-spin-rev 5s linear infinite;
+    }
+    .ride3{
+        
+        top: calc(50% + 100px - 25px); /* Bottom-right spike tip (120°) */
+        left: calc(50% + 173px - 25px);
+        animation: ride-spin-rev 5s linear infinite;
+    }
+    .ride4{
+
+        top: calc(50% + 200px - 25px); /* Bottom spike tip (180°) */
+        left: calc(50% - 25px);
+        animation: ride-spin-rev 5s linear infinite;
+    }
+    .ride5{
+        top: calc(50% + 100px - 25px); /* Bottom-left spike tip (240°) */
+        left: calc(50% - 173px - 25px);
+        animation: ride-spin-rev 5s linear infinite;
+    }
+    .ride6{
+        top: calc(50% - 100px - 25px); /* Top-left spike tip (300°) */
+        left: calc(50% - 173px - 25px);
+        animation: ride-spin-rev 5s linear infinite;
+    }
+    @keyframes ride-spin {
+        0% { transform: rotate(0deg);}
+        100% { transform: rotate(360deg);}
+    }
+    @keyframes ride-spin-rev {
+        0% { transform: rotate(360deg);}
+        100% { transform: rotate(0deg);}
+    }
+</style>
+<body>
+    <div class="frame">
+        <!--Spikes-->
+        <div class="spike spike1"></div>
+        <div class="spike spike2"></div>
+        <div class="spike spike3"></div>
+        <div class="spike spike4"></div>
+        <div class="spike spike5"></div>
+        <div class="spike spike6"></div>
+        
+        <!-- Rides -->
+        <div class="ride ride1"></div>
+        <div class="ride ride2"></div>
+        <div class="ride ride3"></div>
+        <div class="ride ride4"></div>
+        <div class="ride ride5"></div>
+        <div class="ride ride6"></div>
+    </div>
+    
+</body>
+</html>
