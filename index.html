@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Soundboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #f0f0f0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #7c3aed;
+            text-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #a5a5b8;
+            margin-bottom: 20px;
+        }
+        
+        .sound-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .sound-btn {
+            background: linear-gradient(145deg, #2d2d44, #242437);
+            border: none;
+            border-radius: 15px;
+            padding: 25px 15px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2),
+                        -5px -5px 15px rgba(255, 255, 255, 0.05);
+        }
+        
+        .sound-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3),
+                        -8px -8px 20px rgba(255, 255, 255, 0.08);
+        }
+        
+        .sound-btn:active {
+            transform: translateY(0);
+        }
+        
+        .sound-btn.playing {
+            background: linear-gradient(145deg, #7c3aed, #6d28d9);
+            color: white;
+            box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.2),
+                        inset -3px -3px 5px rgba(255, 255, 255, 0.1);
+        }
+        
+        .sound-btn i {
+            font-size: 2rem;
+            color: #7c3aed;
+        }
+        
+        .sound-btn.playing i {
+            color: white;
+        }
+        
+        .controls {
+            background: rgba(45, 45, 68, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .volume-icon {
+            font-size: 1.5rem;
+            color: #7c3aed;
+        }
+        
+        .volume-slider {
+            flex-grow: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #3a3a5e;
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #7c3aed;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        
+        .volume-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #7c3aed;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        
+        .volume-value {
+            font-weight: 600;
+            color: #a78bfa;
+            min-width: 40px;
+        }
+        
+        .button-controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .control-btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .stop-btn {
+            background: linear-gradient(145deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .stop-btn:hover {
+            background: linear-gradient(145deg, #dc2626, #b91c1c);
+        }
+        
+        .instructions {
+            background: rgba(45, 45, 68, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-top: 20px;
+        }
+        
+        .instructions h3 {
+            color: #a78bfa;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .instructions p {
+            color: #a5a5b8;
+            margin-bottom: 10px;
+        }
+        
+        .sound-label {
+            margin-top: 5px;
+        }
+        
+        .pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Simple Soundboard</h1>
+            <p class="subtitle">Click any button to play a sound. Drag the slider to adjust volume.</p>
+        </header>
+        
+        <div class="sound-grid">
+            <!-- SOUND BUTTON 1 -->
+            <button class="sound-btn" data-sound="sound1">
+                <i class="fas fa-music"></i>
+                <span class="sound-label">Dog</span>
+            </button>
+            
+            <!-- SOUND BUTTON 2 -->
+            <button class="sound-btn" data-sound="sound2">
+                <i class="fas fa-guitar"></i>
+                <span class="sound-label">Cat</span>
+            </button>
+            
+            <!-- SOUND BUTTON 3 -->
+            <button class="sound-btn" data-sound="sound3">
+                <i class="fas fa-drum"></i>
+                <span class="sound-label">Bird</span>
+            </button>
+            
+            <!-- SOUND BUTTON 4 -->
+            <button class="sound-btn" data-sound="sound4">
+                <i class="fas fa-bell"></i>
+                <span class="sound-label">Cow</span>
+            </button>
+            
+            <!-- SOUND BUTTON 5 -->
+            <button class="sound-btn" data-sound="sound5">
+                <i class="fas fa-volume-up"></i>
+                <span class="sound-label">Sheep</span>
+            </button>
+            
+            <!-- SOUND BUTTON 6 -->
+            <button class="sound-btn" data-sound="sound6">
+                <i class="fas fa-star"></i>
+                <span class="sound-label">Laugh</span>
+            </button>
+        </div>
+        
+        <div class="controls">
+            <div class="volume-container">
+                <i class="fas fa-volume-up volume-icon"></i>
+                <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
+                <span class="volume-value" id="volumeValue">70%</span>
+            </div>
+            
+            <div class="button-controls">
+                <button class="control-btn stop-btn" id="stopBtn">
+                    <i class="fas fa-stop"></i>
+                    Stop All Sounds
+                </button>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>How to Add Your Own Sounds:</h3>
+            <p>1. Place your sound files in the same folder as this HTML file</p>
+            <p>2. Rename them to: sound1.mp3, sound2.mp3, etc.</p>
+            <p>3. Supported formats: MP3, WAV, OGG</p>
+            <p>4. Update button labels by changing the text inside the <code>.sound-label</code> span</p>
+            <p>5. Change icons by updating the FontAwesome class names</p>
+        </div>
+    </div>
+
+    <script>
+        // Soundboard configuration
+        const soundConfig = {
+            // VOLUME: 0.0 (silent) to 1.0 (full volume)
+            volume: 0.7,
+            
+            // SOUND FILES - ADD YOUR FILE NAMES HERE
+            soundFiles: {
+                'sound1': 'sound1.mp3',  // Change this to your sound file
+                'sound2': 'sound2.mp3',  // Change this to your sound file
+                'sound3': 'sound3.mp3',  // Change this to your sound file
+                'sound4': 'sound4.mp3',  // Change this to your sound file
+                'sound5': 'sound5.mp3',  // Change this to your sound file
+                'sound6': 'sound6.mp3'   // Change this to your sound file
+            },
+            
+            // ICON COLORS (optional)
+            iconColor: '#7c3aed',
+            playingColor: 'white'
+        };
+
+        // Audio player state
+        let audioElements = {};
+        let currentVolume = soundConfig.volume;
+        
+        // Initialize the soundboard
+        function initSoundboard() {
+            // Create audio elements for each sound
+            Object.keys(soundConfig.soundFiles).forEach(soundId => {
+                const audio = new Audio();
+                
+                // SET YOUR SOUND FILE PATH HERE
+                audio.src = soundConfig.soundFiles[soundId];
+                
+                // Add error handling
+                audio.onerror = function() {
+                    console.error(`Error loading sound: ${soundConfig.soundFiles[soundId]}`);
+                    alert(`Could not load sound: ${soundConfig.soundFiles[soundId]}\nPlease check the file exists.`);
+                };
+                
+                audio.preload = 'auto';
+                audio.volume = currentVolume;
+                audioElements[soundId] = audio;
+            });
+            
+            // Set up event listeners for sound buttons
+            document.querySelectorAll('.sound-btn').forEach(button => {
+                const soundId = button.getAttribute('data-sound');
+                const audio = audioElements[soundId];
+                
+                if (!audio) return;
+                
+                // Play sound when button is clicked
+                button.addEventListener('click', function() {
+                    playSound(soundId, button);
+                });
+                
+                // Remove playing class when sound ends
+                audio.addEventListener('ended', function() {
+                    button.classList.remove('playing');
+                });
+                
+                // Remove playing class if sound is paused
+                audio.addEventListener('pause', function() {
+                    button.classList.remove('playing');
+                });
+            });
+            
+            // Set up volume slider
+            const volumeSlider = document.getElementById('volumeSlider');
+            const volumeValue = document.getElementById('volumeValue');
+            
+            volumeSlider.value = currentVolume * 100;
+            volumeValue.textContent = `${Math.round(currentVolume * 100)}%`;
+            
+            volumeSlider.addEventListener('input', function() {
+                const volume = this.value / 100;
+                setVolume(volume);
+                volumeValue.textContent = `${this.value}%`;
+            });
+            
+            // Set up stop button
+            document.getElementById('stopBtn').addEventListener('click', function() {
+                stopAllSounds();
+                this.classList.add('pulse');
+                setTimeout(() => this.classList.remove('pulse'), 500);
+            });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(event) {
+                // Number keys 1-6
+                if (event.key >= '1' && event.key <= '6') {
+                    const index = parseInt(event.key) - 1;
+                    const buttons = document.querySelectorAll('.sound-btn');
+                    if (buttons[index]) {
+                        buttons[index].click();
+                    }
+                }
+                
+                // Spacebar to stop all sounds
+                if (event.code === 'Space') {
+                    event.preventDefault();
+                    document.getElementById('stopBtn').click();
+                }
+            });
+        }
+        
+        // Play a specific sound
+        function playSound(soundId, button) {
+            const audio = audioElements[soundId];
+            
+            if (!audio) {
+                console.error(`Sound not found: ${soundId}`);
+                return;
+            }
+            
+            // Stop and reset current sound if already playing
+            audio.pause();
+            audio.currentTime = 0;
+            
+            // Play the sound
+            audio.volume = currentVolume;
+            audio.play().catch(error => {
+                console.error('Playback failed:', error);
+                alert('Could not play sound. Please click the button again.');
+            });
+            
+            // Visual feedback
+            button.classList.add('playing');
+            button.classList.add('pulse');
+            setTimeout(() => button.classList.remove('pulse'), 300);
+        }
+        
+        // Set volume for all sounds
+        function setVolume(volume) {
+            currentVolume = volume;
+            
+            // Update all audio elements
+            Object.values(audioElements).forEach(audio => {
+                if (audio) {
+                    audio.volume = volume;
+                }
+            });
+        }
+        
+        // Stop all currently playing sounds
+        function stopAllSounds() {
+            Object.values(audioElements).forEach(audio => {
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+            
+            // Remove playing class from all buttons
+            document.querySelectorAll('.sound-btn.playing').forEach(button => {
+                button.classList.remove('playing');
+            });
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initSoundboard);
+        
+        // Display helpful information in console
+        console.log('🔊 Soundboard Loaded!');
+        console.log('📁 Place your sound files in the same folder as this HTML file');
+        console.log('🎵 Supported formats: MP3, WAV, OGG');
+        console.log('🎹 Keyboard shortcuts:');
+        console.log('   1-6: Play sounds 1-6');
+        console.log('   Space: Stop all sounds');
+    </script>
+</body>
+</html>
